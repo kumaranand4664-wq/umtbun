@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMTBUN - Premium Online Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --dark-gray: #334155;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 70%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .tool-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--card-bg);
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .category-btn i {
+            font-size: 1rem;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Tool Sections */
+        .tool-section {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+            animation-delay: calc(var(--order) * 0.1s);
+        }
+
+        .tool-section.active {
+            display: block;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .tool-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-header p {
+            color: var(--gray);
+        }
+
+        /* Common Tool Styles */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="url"],
+        .input-group input[type="number"],
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark-gray);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: #dc2626;
+        }
+
+        .btn i {
+            font-size: 1rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .results {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 1rem;
+            color: var(--gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(99, 102, 241, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Image Compressor Specific Styles */
+        .drop-area {
+            border: 2px dashed var(--gray);
+            border-radius: 0.5rem;
+            padding: 3rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            background: rgba(248, 250, 252, 0.5);
+        }
+
+        .drop-area:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .drop-area.highlight {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .drop-area i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .drop-area h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .slider:hover {
+            background: #cbd5e1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .preview-container {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .preview-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .image-preview {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .image-preview img:hover {
+            transform: scale(1.02);
+        }
+
+        .image-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .info-value {
+            font-weight: 600;
+        }
+
+        .savings {
+            color: var(--secondary);
+        }
+
+        /* YouTube Thumbnail Downloader Styles */
+        .thumbnail-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .thumbnail-option {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .thumbnail-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .thumbnail-img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .thumbnail-info {
+            padding: 1rem;
+        }
+
+        .thumbnail-info h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        /* Hashtag Generator Styles */
+        .hashtag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hashtag {
+            display: inline-block;
+            padding: 0.5rem 0.75rem;
+            background: #e0f2fe;
+            color: #0369a1;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .hashtag:hover {
+            background: #bae6fd;
+            transform: translateY(-2px);
+        }
+
+        /* Dice Roller Styles */
+        .dice-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dice-selector, .dice-count {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .dice-rolls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .dice {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dice.rolling {
+            animation: roll 0.5s ease-out;
+        }
+
+        .dice-total, .dice-average {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .dice-total {
+            color: var(--primary);
+        }
+
+        .dice-average {
+            color: var(--secondary);
+        }
+
+        /* Speed Test Styles */
+        .speed-test-metric {
+            margin-bottom: 1.5rem;
+        }
+
+        .speed-test-metric h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+        }
+
+        .speed-meter {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+
+        .speed-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 0.5rem;
+            width: 0;
+            transition: width 1s ease-out;
+        }
+
+        .speed-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Business Name Generator */
+        .name-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .name-list li {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: var(--transition);
+        }
+
+        .name-list li:hover {
+            background: #f8fafc;
+            padding-left: 1.25rem;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo i {
+            color: var(--primary);
+        }
+
+        .footer-about p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 0.5rem;
+        }
+
+        .footer-contact p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-contact i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--dark-gray);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast i {
+            color: var(--primary);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes roll {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--card-bg);
+                backdrop-filter: blur(10px);
+                box-shadow: var(--shadow);
+                padding: 1rem;
+                transform: translateY(-150%);
+                opacity: 0;
+                transition: var(--transition);
+                z-index: 999;
+            }
+
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 0.75rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .tool-section {
+                padding: 1.5rem;
+            }
+
+            .preview-content {
+                flex-direction: column;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .category-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-tools"></i>
+                <span>UMTBUN</span>
+            </a>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-section="all-tools">All Tools</a></li>
+                    <li><a href="#" class="nav-link" data-section="image-tools">Image Tools</a></li>
+                    <li><a href="#" class="nav-link" data-section="social-media-tools">Social Media</a></li>
+                    <li><a href="#" class="nav-link" data-section="generators">Generators</a></li>
+                    <li><a href="#" class="nav-link" data-section="utility-tools">Utilities</a></li>
+                </ul>
+            </nav>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Premium Online Tools Collection</h1>
+            <p>Access 20+ powerful tools for image processing, social media, content generation, and more - all in one place!</p>
+            
+            <div class="tool-categories">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-th-large"></i> All Tools
+                </button>
+                <button class="category-btn" data-category="image">
+                    <i class="fas fa-image"></i> Image Tools
+                </button>
+                <button class="category-btn" data-category="social">
+                    <i class="fas fa-share-alt"></i> Social Media
+                </button>
+                <button class="category-btn" data-category="generator">
+                    <i class="fas fa-random"></i> Generators
+                </button>
+                <button class="category-btn" data-category="utility">
+                    <i class="fas fa-toolbox"></i> Utilities
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Image Compression Tool -->
+        <section class="tool-section active" id="image-compressor" data-categories="image" style="--order: 0">
+            <div class="tool-header">
+                <h2><i class="fas fa-compress-alt"></i> Image Compression Tool</h2>
+                <p>Reduce image file size without losing quality</p>
+            </div>
+            
+            <div class="drop-area" id="dropArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Drag & Drop Your Image Here</h3>
+                <p>or</p>
+                <input type="file" id="fileInput" class="file-input" accept="image/*">
+                <button class="btn" id="selectFileBtn">
+                    <i class="fas fa-folder-open"></i> Select Image
+                </button>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label for="compressionLevel">Compression Level</label>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="100" value="70" class="slider" id="compressionLevel">
+                        <span class="slider-value" id="compressionValue">70%</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="outputFormat">Output Format</label>
+                    <select id="outputFormat">
+                        <option value="auto">Auto (Same as input)</option>
+                        <option value="jpeg">JPEG</option>
+                        <option value="png">PNG</option>
+                        <option value="webp">WebP</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn" id="compressBtn" disabled>
+                    <i class="fas fa-compress"></i> Compress Image
+                </button>
+                <button class="btn btn-secondary" id="resetBtn" disabled>
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+            
+            <div class="spinner" id="spinner" style="display: none;"></div>
+            
+            <div class="preview-container" id="previewContainer">
+                <div class="preview-header">
+                    <h3>Compression Results</h3>
+                </div>
+                
+                <div class="preview-content">
+                    <div class="image-preview">
+                        <h4>Original vs Compressed</h4>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <p>Original</p>
+                                <img id="originalPreview" alt="Original image">
+                            </div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <p>Compressed</p>
+                                <img id="compressedPreview" alt="Compressed image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="image-info">
+                        <h4>File Information</h4>
+                        <div class="info-item">
+                            <span class="info-label">Original Size:</span>
+                            <span class="info-value" id="originalSize">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Compressed Size:</span>
+                            <span class="info-value" id="compressedSize">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Reduction:</span>
+                            <span class="info-value savings" id="reduction">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Dimensions:</span>
+                            <span class="info-value" id="dimensions">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Format:</span>
+                            <span class="info-value" id="format">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Compressed Image
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- YouTube Thumbnail Downloader -->
+        <section class="tool-section" id="youtube-thumbnail-downloader" data-categories="social" style="--order: 1">
+            <div class="tool-header">
+                <h2><i class="fab fa-youtube"></i> YouTube Thumbnail Downloader</h2>
+                <p>Download high-quality thumbnails from any YouTube video</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="youtube-url">YouTube Video URL</label>
+                <input type="url" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+            </div>
+            
+            <button class="btn" id="fetch-thumbnails">
+                <i class="fas fa-download"></i> Get Thumbnails
+            </button>
+            
+            <div class="results" id="thumbnail-results">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading thumbnails...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instagram Downloader -->
+        <section class="tool-section" id="instagram-downloader" data-categories="social" style="--order: 2">
+            <div class="tool-header">
+                <h2><i class="fab fa-instagram"></i> Instagram Downloader</h2>
+                <p>Download photos, videos, and reels from Instagram</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="instagram-url">Instagram Post URL</label>
+                <input type="url" id="instagram-url" placeholder="https://www.instagram.com/p/...">
+            </div>
+            
+            <button class="btn" id="fetch-instagram">
+                <i class="fas fa-download"></i> Download Media
+            </button>
+            
+            <div class="results" id="instagram-results">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Processing Instagram media...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hashtag Generator -->
+        <section class="tool-section" id="hashtag-generator" data-categories="social generator" style="--order: 3">
+            <div class="tool-header">
+                <h2><i class="fas fa-hashtag"></i> Hashtag Generator</h2>
+                <p>Generate relevant hashtags for your social media posts</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="hashtag-keyword">Main Keyword</label>
+                <input type="text" id="hashtag-keyword" placeholder="Enter your main keyword">
+            </div>
+            
+            <div class="input-group">
+                <label for="hashtag-platform">Platform</label>
+                <select id="hashtag-platform">
+                    <option value="all">All Platforms</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="twitter">Twitter</option>
+                    <option value="tiktok">TikTok</option>
+                </select>
+            </div>
+            
+            <button class="btn" id="generate-hashtags">
+                <i class="fas fa-magic"></i> Generate Hashtags
+            </button>
+            
+            <div class="results" id="hashtag-results">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Generating hashtags...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dice Roller -->
+        <section class="tool-section" id="dice-roller" data-categories="utility" style="--order: 4">
+            <div class="tool-header">
+                <h2><i class="fas fa-dice"></i> Dice Roller</h2>
+                <p>Roll virtual dice for games or decision making</p>
+            </div>
+            
+            <div class="dice-controls">
+                <div class="dice-selector">
+                    <label for="dice-type">Dice Type</label>
+                    <select id="dice-type">
+                        <option value="4">D4</option>
+                        <option value="6" selected>D6</option>
+                        <option value="8">D8</option>
+                        <option value="10">D10</option>
+                        <option value="12">D12</option>
+                        <option value="20">D20</option>
+                        <option value="100">D100</option>
+                    </select>
+                </div>
+                
+                <div class="dice-count">
+                    <label for="dice-count">Number of Dice</label>
+                    <input type="number" id="dice-count" min="1" max="10" value="1">
+                </div>
+            </div>
+            
+            <button class="btn" id="roll-dice">
+                <i class="fas fa-dice"></i> Roll Dice
+            </button>
+            
+            <div class="results" id="dice-results">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Rolling dice...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Name Generator -->
+        <section class="tool-section" id="business-name-generator" data-categories="generator" style="--order: 5">
+            <div class="tool-header">
+                <h2><i class="fas fa-building"></i> Business Name Generator</h2>
+                <p>Generate creative names for your business or project</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="business-keyword">Keywords</label>
+                <input type="text" id="business-keyword" placeholder="e.g., tech, coffee">
+            </div>
+            
+            <div class="input-group">
+                <label for="business-industry">Industry</label>
+                <select id="business-industry">
+                    <option value="general">General</option>
+                    <option value="tech">Technology</option>
+                    <option value="food">Food & Beverage</option>
+                    <option value="health">Health & Wellness</option>
+                    <option value="creative">Creative Arts</option>
+                </select>
+            </div>
+            
+            <button class="btn" id="generate-names">
+                <i class="fas fa-lightbulb"></i> Generate Names
+            </button>
+            
+            <div class="results" id="name-results">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Generating business names...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Internet Speed Test -->
+        <section class="tool-section" id="speed-test" data-categories="utility" style="--order: 6">
+            <div class="tool-header">
+                <h2><i class="fas fa-tachometer-alt"></i> Internet Speed Test</h2>
+                <p>Check your download and upload speeds</p>
+            </div>
+            
+            <button class="btn" id="start-speed-test">
+                <i class="fas fa-play"></i> Start Speed Test
+            </button>
+            
+            <div class="results" id="speed-test-results">
+                <div class="speed-test-metric">
+                    <h4>Download Speed</h4>
+                    <div class="speed-meter">
+                        <div class="speed-bar" id="download-bar"></div>
+                    </div>
+                    <div class="speed-value" id="download-speed">0 Mbps</div>
+                </div>
+                
+                <div class="speed-test-metric">
+                    <h4>Upload Speed</h4>
+                    <div class="speed-meter">
+                        <div class="speed-bar" id="upload-bar"></div>
+                    </div>
+                    <div class="speed-value" id="upload-speed">0 Mbps</div>
+                </div>
+                
+                <div class="speed-test-metric">
+                    <h4>Ping</h4>
+                    <div class="speed-value" id="ping-value">-</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Additional Tools (simplified for brevity) -->
+        <!-- Twitter Video Downloader -->
+        <section class="tool-section" id="twitter-video-downloader" data-categories="social" style="--order: 7">
+            <div class="tool-header">
+                <h2><i class="fab fa-twitter"></i> Twitter Video Downloader</h2>
+                <p>Download videos from Twitter (X)</p>
+            </div>
+            <!-- Implementation similar to other downloaders -->
+        </section>
+
+        <!-- TikTok Downloader -->
+        <section class="tool-section" id="tiktok-downloader" data-categories="social" style="--order: 8">
+            <div class="tool-header">
+                <h2><i class="fab fa-tiktok"></i> TikTok Downloader</h2>
+                <p>Download videos from TikTok without watermark</p>
+            </div>
+            <!-- Implementation similar to other downloaders -->
+        </section>
+
+        <!-- YouTube Tags Extractor -->
+        <section class="tool-section" id="youtube-tags-extractor" data-categories="social" style="--order: 9">
+            <div class="tool-header">
+                <h2><i class="fab fa-youtube"></i> YouTube Tags Extractor</h2>
+                <p>Extract tags from any YouTube video</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Social Media Post Generator -->
+        <section class="tool-section" id="post-generator" data-categories="social generator" style="--order: 10">
+            <div class="tool-header">
+                <h2><i class="fas fa-comment-alt"></i> Social Media Post Generator</h2>
+                <p>Generate engaging posts for your social media</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Emoji Keyboard -->
+        <section class="tool-section" id="emoji-keyboard" data-categories="utility" style="--order: 11">
+            <div class="tool-header">
+                <h2><i class="far fa-smile"></i> Emoji Keyboard</h2>
+                <p>Copy and paste emojis for your messages</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Twitter Character Counter -->
+        <section class="tool-section" id="twitter-counter" data-categories="social utility" style="--order: 12">
+            <div class="tool-header">
+                <h2><i class="fab fa-twitter"></i> Twitter Character Counter</h2>
+                <p>Count characters for your tweets</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Lottery Number Generator -->
+        <section class="tool-section" id="lottery-generator" data-categories="generator utility" style="--order: 13">
+            <div class="tool-header">
+                <h2><i class="fas fa-ticket-alt"></i> Lottery Number Generator</h2>
+                <p>Generate random lottery numbers</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Flip a Coin -->
+        <section class="tool-section" id="coin-flipper" data-categories="utility" style="--order: 14">
+            <div class="tool-header">
+                <h2><i class="fas fa-coins"></i> Flip a Coin</h2>
+                <p>Make decisions with a virtual coin toss</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Random Number Generator -->
+        <section class="tool-section" id="random-number" data-categories="utility" style="--order: 15">
+            <div class="tool-header">
+                <h2><i class="fas fa-random"></i> Random Number Generator</h2>
+                <p>Generate random numbers within a range</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Daily Planner -->
+        <section class="tool-section" id="daily-planner" data-categories="utility" style="--order: 16">
+            <div class="tool-header">
+                <h2><i class="fas fa-calendar-day"></i> Daily Planner Creator</h2>
+                <p>Create a schedule for your day</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Wedding Invitation Generator -->
+        <section class="tool-section" id="wedding-invitation" data-categories="generator" style="--order: 17">
+            <div class="tool-header">
+                <h2><i class="fas fa-ring"></i> Wedding Invitation Generator</h2>
+                <p>Create beautiful wedding invitations</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- Story Plot Generator -->
+        <section class="tool-section" id="story-plot" data-categories="generator" style="--order: 18">
+            <div class="tool-header">
+                <h2><i class="fas fa-book-open"></i> Story Plot Generator</h2>
+                <p>Generate creative story ideas</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+
+        <!-- E-book Creator -->
+        <section class="tool-section" id="ebook-creator" data-categories="utility" style="--order: 19">
+            <div class="tool-header">
+                <h2><i class="fas fa-book"></i> E-book Creator</h2>
+                <p>Create simple e-books from your text</p>
+            </div>
+            <!-- Implementation -->
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <i class="fas fa-tools"></i>
+                    <span>UMTBUN</span>
+                </div>
+                <p>Your ultimate collection of online tools for all your digital needs.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/official__ankit__0005" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" title="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">All Tools</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Tools</h3>
+                <ul>
+                    <li><a href="#image-compressor">Image Compressor</a></li>
+                    <li><a href="#youtube-thumbnail-downloader">YouTube Downloader</a></li>
+                    <li><a href="#instagram-downloader">Instagram Downloader</a></li>
+                    <li><a href="#hashtag-generator">Hashtag Generator</a></li>
+                    <li><a href="#dice-roller">Dice Roller</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p>
+                    <i class="fas fa-envelope"></i>
+                    contact@umtbun.com
+                </p>
+                <p>
+                    <i class="fab fa-instagram"></i>
+                    <a href="https://instagram.com/official__ankit__0005" target="_blank">@official__ankit__0005</a>
+                </p>
+                <p>
+                    <i class="fas fa-map-marker-alt"></i>
+                    India
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 UMTBUN. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Operation completed successfully</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Tool Navigation
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const toolSections = document.querySelectorAll('.tool-section');
+
+        function filterTools(category) {
+            toolSections.forEach(section => {
+                if (category === 'all' || section.dataset.categories.includes(category)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        function showAllTools() {
+            toolSections.forEach(section => {
+                section.style.display = 'block';
+            });
+        }
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const category = btn.dataset.category;
+                filterTools(category);
+                
+                // Smooth scroll to first visible tool
+                const firstVisibleTool = document.querySelector('.tool-section[style="display: block;"]');
+                if (firstVisibleTool) {
+                    firstVisibleTool.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                const section = link.dataset.section;
+                if (section === 'all-tools') {
+                    showAllTools();
+                } else {
+                    filterTools(section.split('-')[0]);
+                }
+                
+                // Close mobile menu if open
+                if (mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+
+        // Image Compression Tool
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const selectFileBtn = document.getElementById('selectFileBtn');
+        const compressBtn = document.getElementById('compressBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const compressionLevel = document.getElementById('compressionLevel');
+        const compressionValue = document.getElementById('compressionValue');
+        const outputFormat = document.getElementById('outputFormat');
+        const previewContainer = document.getElementById('previewContainer');
+        const originalPreview = document.getElementById('originalPreview');
+        const compressedPreview = document.getElementById('compressedPreview');
+        const originalSize = document.getElementById('originalSize');
+        const compressedSize = document.getElementById('compressedSize');
+        const reduction = document.getElementById('reduction');
+        const dimensions = document.getElementById('dimensions');
+        const format = document.getElementById('format');
+        const spinner = document.getElementById('spinner');
+        
+        let originalFile = null;
+        let compressedBlob = null;
+
+        selectFileBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+        dropArea.addEventListener('dragover', handleDragOver);
+        dropArea.addEventListener('dragleave', handleDragLeave);
+        dropArea.addEventListener('drop', handleDrop);
+        compressionLevel.addEventListener('input', updateCompressionValue);
+        compressBtn.addEventListener('click', compressImage);
+        resetBtn.addEventListener('click', resetTool);
+        downloadBtn.addEventListener('click', downloadCompressedImage);
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file && file.type.match('image.*')) {
+                processSelectedFile(file);
+            } else {
+                showToast('Please select a valid image file (JPG, PNG, WebP)');
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.add('highlight');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.remove('highlight');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.remove('highlight');
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.match('image.*')) {
+                processSelectedFile(file);
+            } else {
+                showToast('Please drop a valid image file (JPG, PNG, WebP)');
+            }
+        }
+
+        function processSelectedFile(file) {
+            originalFile = file;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalPreview.src = e.target.result;
+                
+                const img = new Image();
+                img.onload = function() {
+                    dimensions.textContent = `${img.width} × ${img.height} px`;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            
+            originalSize.textContent = formatFileSize(file.size);
+            format.textContent = file.type.split('/')[1].toUpperCase();
+            
+            compressBtn.disabled = false;
+            resetBtn.disabled = false;
+            
+            previewContainer.style.display = 'none';
+            showToast('Image loaded successfully!');
+        }
+
+        function updateCompressionValue() {
+            compressionValue.textContent = `${compressionLevel.value}%`;
+        }
+
+        function compressImage() {
+            if (!originalFile) {
+                showToast('Please select an image first');
+                return;
+            }
+            
+            spinner.style.display = 'block';
+            compressBtn.disabled = true;
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                const quality = compressionLevel.value / 100;
+                const selectedFormat = outputFormat.value === 'auto' 
+                    ? originalFile.type.split('/')[1] 
+                    : outputFormat.value;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+                        
+                        canvas.toBlob((blob) => {
+                            compressedBlob = blob;
+                            
+                            compressedPreview.src = URL.createObjectURL(blob);
+                            compressedSize.textContent = formatFileSize(blob.size);
+                            
+                            const originalSizeBytes = originalFile.size;
+                            const compressedSizeBytes = blob.size;
+                            const reductionPercent = ((originalSizeBytes - compressedSizeBytes) / originalSizeBytes * 100).toFixed(1);
+                            reduction.textContent = `${reductionPercent}%`;
+                            
+                            previewContainer.style.display = 'block';
+                            spinner.style.display = 'none';
+                            compressBtn.disabled = false;
+                            
+                            previewContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            showToast('Image compressed successfully!');
+                            
+                        }, `image/${selectedFormat}`, quality);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(originalFile);
+                
+            }, 1000);
+        }
+
+        function resetTool() {
+            originalFile = null;
+            compressedBlob = null;
+            fileInput.value = '';
+            originalPreview.src = '';
+            compressedPreview.src = '';
+            originalSize.textContent = '-';
+            compressedSize.textContent = '-';
+            reduction.textContent = '-';
+            dimensions.textContent = '-';
+            format.textContent = '-';
+            previewContainer.style.display = 'none';
+            compressBtn.disabled = true;
+            resetBtn.disabled = true;
+            compressionLevel.value = 70;
+            compressionValue.textContent = '70%';
+            outputFormat.value = 'auto';
+            showToast('Tool reset successfully');
+        }
+
+        function downloadCompressedImage() {
+            if (!compressedBlob) {
+                showToast('No compressed image available');
+                return;
+            }
+            
+            const url = URL.createObjectURL(compressedBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            
+            let extension;
+            switch (outputFormat.value) {
+                case 'jpeg': extension = 'jpg'; break;
+                case 'png': extension = 'png'; break;
+                case 'webp': extension = 'webp'; break;
+                default: extension = originalFile.name.split('.').pop();
+            }
+            
+            a.download = `compressed_${originalFile.name.split('.')[0]}.${extension}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Download started!');
+        }
+
+        // YouTube Thumbnail Downloader
+        document.getElementById('fetch-thumbnails').addEventListener('click', async () => {
+            const url = document.getElementById('youtube-url').value;
+            const videoId = extractYouTubeId(url);
+            
+            if (!videoId) {
+                showToast('Please enter a valid YouTube URL');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('thumbnail-results');
+            resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading thumbnails...</p></div>';
+            resultsDiv.style.display = 'block';
+
+            const qualities = [
+                { name: 'Max Resolution', url: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` },
+                { name: 'HD Quality', url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` },
+                { name: 'Medium Quality', url: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` },
+                { name: 'Standard Quality', url: `https://img.youtube.com/vi/${videoId}/sddefault.jpg` }
+            ];
+
+            // Check which thumbnails exist
+            const availableQualities = await Promise.all(qualities.map(async (quality) => {
+                const exists = await checkImageExists(quality.url);
+                return exists ? quality : null;
+            })).then(results => results.filter(Boolean));
+
+            if (availableQualities.length === 0) {
+                resultsDiv.innerHTML = '<div class="error">No thumbnails found for this video</div>';
+                return;
+            }
+
+            resultsDiv.innerHTML = `
+                <div class="thumbnail-options">
+                    ${availableQualities.map(quality => `
+                        <div class="thumbnail-option">
+                            <img src="${quality.url}" alt="${quality.name}" class="thumbnail-img">
+                            <div class="thumbnail-info">
+                                <h4>${quality.name}</h4>
+                                <a href="${quality.url}" download="thumbnail-${videoId}-${quality.name.replace(' ', '-')}.jpg" class="btn">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            showToast('Thumbnails loaded successfully!');
+        });
+
+        function extractYouTubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        async function checkImageExists(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                return response.ok;
+            } catch {
+                return false;
+            }
+        }
+        
+        // Hashtag Generator
+        document.getElementById('generate-hashtags').addEventListener('click', () => {
+            const keyword = document.getElementById('hashtag-keyword').value.trim();
+            const platform = document.getElementById('hashtag-platform').value;
+            
+            if (!keyword) {
+                showToast('Please enter a keyword');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('hashtag-results');
+            resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div><p>Generating hashtags...</p></div>';
+            resultsDiv.style.display = 'block';
+
+            setTimeout(() => {
+                const hashtags = generateHashtags(keyword, platform);
+                displayHashtags(hashtags, resultsDiv);
+                showToast('Hashtags generated successfully!');
+            }, 800);
+        });
+
+        function generateHashtags(keyword, platform) {
+            const baseHashtags = [
+                `#${keyword.toLowerCase().replace(/\s+/g, '')}`,
+                `#${keyword.toLowerCase().replace(/\s+/g, '_')}`,
+                `#${keyword.toLowerCase().replace(/\s+/g, '')}love`,
+                `#${keyword.toLowerCase().replace(/\s+/g, '')}time`
+            ];
+
+            const platformHashtags = {
+                instagram: ['#instagood', '#photooftheday', '#instagram', '#instadaily', '#picoftheday'],
+                twitter: ['#trending', '#viral', '#twitter', '#tweet', '#thread'],
+                tiktok: ['#fyp', '#foryoupage', '#tiktok', '#viralvideo', '#trendingnow']
+            };
+
+            const related = [
+                `#${keyword.toLowerCase().replace(/\s+/g, '')}squad`,
+                `#best${keyword.toLowerCase().replace(/\s+/g, '')}`,
+                `#${keyword.toLowerCase().replace(/\s+/g, '')}life`,
+                `#${keyword.toLowerCase().replace(/\s+/g, '')}lover`,
+                `#${keyword.toLowerCase().replace(/\s+/g, '')}addict`,
+                `#${keyword.toLowerCase().replace(/\s+/g, '')}world`
+            ];
+
+            let hashtags = [...baseHashtags, ...related];
+            if (platform !== 'all') {
+                hashtags = [...hashtags, ...platformHashtags[platform]];
+            }
+
+            const trending = ['#love', '#happy', '#fun', '#cool', '#awesome', '#amazing', '#beautiful'];
+            hashtags = [...hashtags, ...trending];
+
+            return [...new Set(hashtags)].slice(0, 30);
+        }
+
+        function displayHashtags(hashtags, container) {
+            container.innerHTML = `
+                <div class="hashtag-container">
+                    ${hashtags.map(tag => `<span class="hashtag">${tag}</span>`).join('')}
+                </div>
+                <button id="copy-hashtags" class="btn">
+                    <i class="fas fa-copy"></i> Copy All Hashtags
+                </button>
+            `;
+
+            document.getElementById('copy-hashtags').addEventListener('click', () => {
+                navigator.clipboard.writeText(hashtags.join(' '));
+                showToast('Hashtags copied to clipboard!');
+            });
+        }
+        
+        // Dice Roller
+        document.getElementById('roll-dice').addEventListener('click', () => {
+            const diceType = parseInt(document.getElementById('dice-type').value);
+            const diceCount = parseInt(document.getElementById('dice-count').value);
+            
+            if (diceCount < 1 || diceCount > 10) {
+                showToast('Please select between 1 and 10 dice');
+                return;
+            }
+
+            const results = rollDice(diceType, diceCount);
+            displayDiceResults(results, diceType);
+            showToast('Dice rolled!');
+        });
+
+        function rollDice(sides, count) {
+            return Array.from({length: count}, () => 
+                Math.floor(Math.random() * sides) + 1
+            );
+        }
+
+        function displayDiceResults(results, diceType) {
+            const resultsDiv = document.getElementById('dice-results');
+            const total = results.reduce((sum, val) => sum + val, 0);
+            
+            resultsDiv.innerHTML = `
+                <div class="dice-rolls">
+                    ${results.map((roll, i) => `
+                        <div class="dice" data-value="${roll}">
+                            ${roll}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="dice-total">Total: ${total}</div>
+                ${results.length > 1 ? `<div class="dice-average">Average: ${(total/results.length).toFixed(2)}</div>` : ''}
+            `;
+            resultsDiv.style.display = 'block';
+
+            const diceElements = document.querySelectorAll('.dice');
+            diceElements.forEach(die => {
+                die.classList.add('rolling');
+                setTimeout(() => die.classList.remove('rolling'), 1000);
+            });
+        }
+        
+        // Business Name Generator
+        document.getElementById('generate-names').addEventListener('click', () => {
+            const keyword = document.getElementById('business-keyword').value.trim();
+            const industry = document.getElementById('business-industry').value;
+            
+            if (!keyword) {
+                showToast('Please enter a keyword');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('name-results');
+            resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div><p>Generating business names...</p></div>';
+            resultsDiv.style.display = 'block';
+
+            setTimeout(() => {
+                const names = generateBusinessNames(keyword, industry);
+                displayBusinessNames(names, resultsDiv);
+                showToast('Business names generated!');
+            }, 800);
+        });
+
+        function generateBusinessNames(keyword, industry) {
+            const prefixes = {
+                general: ['Prime', 'Elite', 'Alpha', 'Peak', 'Vertex', 'Nova', 'Zenith', 'Pinnacle'],
+                tech: ['Tech', 'Digital', 'Code', 'Byte', 'Logic', 'Nexus', 'Quantum', 'Vector'],
+                food: ['Gourmet', 'Savory', 'Fresh', 'Crisp', 'Delight', 'Flavor', 'Harvest', 'Bounty'],
+                health: ['Vital', 'Pure', 'Zen', 'Harmony', 'Balance', 'Serene', 'Tranquil', 'Revive'],
+                creative: ['Imagine', 'Canvas', 'Story', 'Hue', 'Inspire', 'Vision', 'Palette', 'Sketch']
+            };
+            
+            const suffixes = {
+                general: ['Solutions', 'Group', 'Enterprises', 'Ventures', 'Holdings', 'Partners', 'Collective', 'Network'],
+                tech: ['Labs', 'Systems', 'Networks', 'Innovations', 'Technologies', 'Digital', 'Soft', 'Logic'],
+                food: ['Kitchen', 'Eats', 'Bistro', 'Cafe', 'Grill', 'Table', 'Pantry', 'Cellar'],
+                health: ['Wellness', 'Care', 'Therapy', 'Center', 'Clinic', 'Healing', 'Sanctuary', 'Therapeutics'],
+                creative: ['Studios', 'Creations', 'Design', 'Media', 'Works', 'Atelier', 'Imagery', 'Expressions']
+            };
+            
+            const industryPrefixes = prefixes[industry] || prefixes.general;
+            const industrySuffixes = suffixes[industry] || suffixes.general;
+            
+            const names = [];
+            
+            // Combine keyword with prefixes/suffixes
+            industryPrefixes.forEach(prefix => {
+                names.push(`${prefix} ${keyword}`);
+                names.push(`${keyword} ${prefix}`);
+            });
+            
+            industrySuffixes.forEach(suffix => {
+                names.push(`${keyword} ${suffix}`);
+                names.push(`${suffix} ${keyword}`);
+            });
+            
+            // Add some random combinations
+            for (let i = 0; i < 5; i++) {
+                const randomPrefix = industryPrefixes[Math.floor(Math.random() * industryPrefixes.length)];
+                const randomSuffix = industrySuffixes[Math.floor(Math.random() * industrySuffixes.length)];
+                names.push(`${randomPrefix} ${randomSuffix}`);
+                names.push(`${keyword} ${randomPrefix} ${randomSuffix}`);
+            }
+            
+            return [...new Set(names)].slice(0, 15);
+        }
+
+        function displayBusinessNames(names, container) {
+            container.innerHTML = `
+                <ul class="name-list">
+                    ${names.map(name => `<li>${name}</li>`).join('')}
+                </ul>
+                <button id="copy-names" class="btn">
+                    <i class="fas fa-copy"></i> Copy All Names
+                </button>
+            `;
+
+            document.getElementById('copy-names').addEventListener('click', () => {
+                navigator.clipboard.writeText(names.join('\n'));
+                showToast('Names copied to clipboard!');
+            });
+        }
+        
+        // Internet Speed Test
+        document.getElementById('start-speed-test').addEventListener('click', async () => {
+            const resultsDiv = document.getElementById('speed-test-results');
+            const downloadBar = document.getElementById('download-bar');
+            const uploadBar = document.getElementById('upload-bar');
+            const downloadSpeed = document.getElementById('download-speed');
+            const uploadSpeed = document.getElementById('upload-speed');
+            const pingValue = document.getElementById('ping-value');
+            
+            resultsDiv.style.display = 'block';
+            
+            // Simulate speed test (in a real app, you would measure actual speeds)
+            // Download test
+            let download = 0;
+            const downloadInterval = setInterval(() => {
+                download += Math.random() * 10;
+                if (download > 85 + Math.random() * 30) {
+                    download = 85 + Math.random() * 30;
+                    clearInterval(downloadInterval);
+                    
+                    // Upload test
+                    let upload = 0;
+                    const uploadInterval = setInterval(() => {
+                        upload += Math.random() * 5;
+                        if (upload > 35 + Math.random() * 15) {
+                            upload = 35 + Math.random() * 15;
+                            clearInterval(uploadInterval);
+                            
+                            // Ping test
+                            pingValue.textContent = `${Math.floor(10 + Math.random() * 40)} ms`;
+                        }
+                        uploadBar.style.width = `${Math.min(upload, 100)}%`;
+                        uploadSpeed.textContent = `${upload.toFixed(2)} Mbps`;
+                    }, 100);
+                }
+                downloadBar.style.width = `${Math.min(download, 100)}%`;
+                downloadSpeed.textContent = `${download.toFixed(2)} Mbps`;
+            }, 100);
+            
+            showToast('Speed test in progress...');
+        });
+
+        // Common Functions
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize
+        updateCompressionValue();
+        filterTools('all');
+        
+        // Animate tool sections on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.tool-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
